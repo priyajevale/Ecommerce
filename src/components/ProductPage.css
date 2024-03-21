@@ -1,0 +1,9 @@
+.product-image {
+    width: 200px; /* Adjust width as needed */
+    margin-right: 20px; /* Add some space between images */
+    margin-bottom: 20px;
+  }
+  
+  .product-image:hover {
+    cursor: zoom-in; /* Change cursor on hover */
+  }

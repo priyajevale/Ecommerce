@@ -57,6 +57,7 @@ import Products from './components/Products'; // Import Products component
 import ContactUs from './components/ContactUsPage'; // Import ContactUs component
 import Home from './components/Home';
 import AboutPage from './components/About';
+import ProductPage from './components/ProductPage';
 function App() {
     return (
         <div className="App">
@@ -67,6 +68,8 @@ function App() {
                     <Route path="/home" component={Home} />
                         <Route path="/contact-us" component={ContactUs} /> 
                         <Route path="/About-Page" component={AboutPage} />{/* Route for ContactUs */}
+                        <Route path="/products/:productId" component={ProductPage} />
+                        
                         <Route path="/" component={Products} />
                          {/* Default route */}
                     </Switch>
