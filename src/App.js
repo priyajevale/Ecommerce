@@ -1,36 +1,40 @@
 
-import React from 'react';
-import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // Import BrowserRouter and other necessary components
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavbarFile from './components/NavbarFile';
-import { CartProvider } from './components/CartContext';
-import Products from './components/Products'; // Import Products component
-import ContactUs from './components/ContactUsPage'; // Import ContactUs component
-import Home from './components/Home';
 import AboutPage from './components/About';
-import ProductPage from './components/ProductPage';
-import LoginPage from './components/LoginPage';
+import { CartProvider } from './components/CartContext';
+import Home from './components/Home';
+import LoginPage from './components/LoginPage'; // Import LoginPage component
+import Products from './components/Products'; // Import Products component
+import firebase from './components/Firebase';
+
 function App() {
-    return (
-        <div className="App">
-            <CartProvider>
-                <Router>
-                    <NavbarFile />
-                    <Switch>
-                    <Route path="/home" component={Home} />
-                        <Route path="/contact-us" component={ContactUs} /> 
-                        
-<Route path="/About-Page" component={AboutPage} />
-<Route path="/login" element={<LoginPage />} />
-                        <Route path="/products/:productId" component={ProductPage} />
-                        
-                        <Route path="/" component={Products} />
-                         {/* Default route */}
-                    </Switch>
-                </Router>
-            </CartProvider>
-        </div>
-    );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return (
+    <div className="App">
+      <CartProvider>
+        <Router>
+          <NavbarFile />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/products" element={user ? <Products /> : <Navigate to="/login" />} />
+          </Routes>
+        </Router>
+      </CartProvider>
+    </div>
+  );
 }
 
 export default App;
